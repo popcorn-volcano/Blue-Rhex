@@ -1,77 +1,57 @@
-# R-Slip Robot Experiment - Complete Setup Guide
+# R-Slip Robot Experiment - Complete Setup & Troubleshooting Guide
 
-## 🚀 Quick Start (3 Steps)
+**For quick start overview, see [README.md](README.md)**
 
-1. **Run the automation script:**
-   ```bash
-   Double-click: RSlip_Robot_Setup.bat
-   ```
+## 🔧 Detailed Setup
 
-2. **Provide IP addresses** (or use defaults):
-   - sbRIO IP (auto-detect or enter manually)
-   - Orin IP (usually .101 or .102)
+### Prerequisites
+- Windows 10/11 with OpenSSH client
+- NI sbRIO with ROS2 workspace installed
+- Jetson Orin Nano (x2) on same WiFi network
+- IP addresses: sbRIO (192.168.0.100), Orin1 (192.168.0.101), Orin2 (192.168.0.102)
 
-3. **Wait for 3 windows to open** → All automatic!
+### Step 1: Launch Script
+```bash
+Double-click: RSlip_Robot_Setup.bat
+```
 
-That's it! The script handles 23+ manual steps automatically.
+### Step 2: Provide IP Addresses
+- **sbRIO IP:** Auto-detect with `arp -a` or enter manually
+- **Orin IP:** Usually .101 or .102 (script auto-guesses)
 
----
-
-## 📋 What Gets Automated
-
-The main script orchestrates:
-- ✅ SSH connection to sbRIO
-- ✅ Starting grpccore service
-- ✅ Starting fpga_driver service
-- ✅ Verifying services are running
-- ✅ Connecting to Jetson Orin boards
-- ✅ Setting ROS2 environment variables
-- ✅ Starting ROS2 bridge
+### Step 3: Wait for 3 Windows
+- sbRIO window loads services
+- Orin1 window starts ROS2 bridge
+- Orin2 window prepares control interface
 
 ---
 
-## 📁 Files Included
+## ✅ Verification
 
-| File | Purpose |
-|------|---------|
-| **RSlip_Robot_Setup.bat** | Main launcher - run this! |
-| **RSlip_sbRIO_Setup.bat** | sbRIO SSH and service startup |
-| **RSlip_Orin1_Bridge.ps1** | Jetson Orin1 ROS2 bridge setup |
-| **RSlip_Orin2_Control.ps1** | Jetson Orin2 control interface |
-| **CONFIG.bat** | Configuration reference (optional) |
+After launching, check all 3 windows:
 
----
+**sbRIO Window:**
+- [ ] `grpccore` running (1 instance)
+- [ ] `fpga_driver` running (1 instance)  
+- [ ] `TCP on 50051` listening
 
-## ✅ Verification Checklist
+**Orin1 Window:**
+- [ ] "Environment Setup Complete"
+- [ ] CORE_MASTER_ADDR and CORE_LOCAL_IP shown
+- [ ] ROS2 bridge connected
 
-After launching, verify all 3 windows:
-
-### sbRIO Window (should show):
-- [ ] `grpccore` service running (one instance)
-- [ ] `fpga_driver` service running (one instance)
-- [ ] `TCP on 50051` confirmed
-
-### Orin1 Window (should show):
-- [ ] "Orin1 Environment Setup Complete"
-- [ ] CORE_MASTER_ADDR and CORE_LOCAL_IP displayed
-- [ ] ROS2 bridge running without errors
-- [ ] **Keep this window open!**
-
-### Orin2 Window (should show):
+**Orin2 Window:**
 - [ ] Environment setup complete
-- [ ] No SSH connection errors
-- [ ] List of control commands displayed
-- [ ] **Keep this window open!**
-
-**⚠️ If any window shows errors:** See Troubleshooting section below
+- [ ] No SSH errors
+- [ ] Control commands displayed
 
 ---
 
 ## 🎮 Robot Control Commands
 
-Execute these **in Orin2 window** in order:
+Execute **in Orin2 window** in order:
 
-### 1. Power Up (Digital Only)
+### 1. Power Up
 ```bash
 ros2 topic pub --once /power/command rinbo_msgs/msg/PowerCmdStamped "{header: {seq: 1, stamp: {sec: 0, nanosec: 0}}, digital: true,signal: false,power: false}"
 ```
