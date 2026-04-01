@@ -1,5 +1,7 @@
 # R-Slip Robot Experiment Automation - Introduction Summary
 
+**GitHub Repository:** https://github.com/popcorn-volcano/Blue-Rhex
+
 ## Project Overview
 
 The R-Slip is a hexapod robot platform designed for slip-based locomotion research. This project automates the complex multi-machine setup process, reducing 23+ manual SSH commands across distributed systems (Windows, sbRIO controller, Jetson Orin Nano boards) into a single-click launcher.
