@@ -1,6 +1,7 @@
 # R-Slip Robot Experiment - Complete Setup & Troubleshooting Guide
 
 **For quick start overview, see [README.md](README.md)**
+**GitHub Link:** https://github.com/popcorn-volcano/Blue-Rhex
 
 ## 🔧 Detailed Setup
 
